@@ -10,5 +10,10 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  }
+  },
+
+  base: '/ladybug-garden.github.io/',
+  build: {
+    outDir: 'dist', // 出力ディレクトリを明示的に 'dist' に設定
+  },
 })
