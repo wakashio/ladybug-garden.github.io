@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "deploy:gh-pages": "vue-cli-service build --dest dist",
+    "deploy:gh-pages": "vue-cli-service build --base=/ladybug-garden.github.io/",
     "preview": "vite preview"
   },
   "dependencies": {
