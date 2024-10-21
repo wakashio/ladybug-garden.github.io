@@ -7,8 +7,7 @@ import {
   fetchAccessToken,
   getCookie,
   CODE_KEY,
-  TOKEN_KEY,
-  redirectToGoogleAuth
+  TOKEN_KEY
 } from '@/auth/google'
 
 const calendarRef = ref<HTMLElement | null>(null)
@@ -28,10 +27,24 @@ const saveAsImage = () => {
   }
 }
 onBeforeMount(() => {
+  const currentUrl = window.location.href
+  if (currentUrl.includes('code=')) {
+    // 認証コードがある場合、処理を進める
+    saveAuthorizationCodeFromUrl().then(() => {
+      fetchAccessToken()
+        .then(() => {
+          location.reload() // トークン取得後にホームにリダイレクト
+        })
+        .catch(() => {
+          console.error('Failed to fetch access token')
+        })
+    })
+  }
   token.value = getCookie(TOKEN_KEY)
   if (!token.value) {
-    fetchAccessToken()
-    token.value = getCookie(TOKEN_KEY)
+    fetchAccessToken().then(() => {
+      token.value = getCookie(TOKEN_KEY)
+    })
   }
 })
 </script>

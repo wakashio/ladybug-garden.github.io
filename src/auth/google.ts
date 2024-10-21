@@ -48,13 +48,15 @@ export const redirectToGoogleAuth = (calledBy?: string) => {
 /**
  * リダイレクト後、authorization code をURLから取得し、クッキーに保存する関数
  */
-export const saveAuthorizationCodeFromUrl = async (): Promise<void> => {
+export const saveAuthorizationCodeFromUrl = async (): Promise<string> => {
   const urlParams = new URLSearchParams(window.location.search) // URLのクエリパラメータを取得
   const authorizationCode = urlParams.get('code')
-  if (authorizationCode) {
-    setCookie(CODE_KEY, authorizationCode, 1) // 認証コードをクッキーに保存 (1日有効)
-    window.history.replaceState(null, '', window.location.pathname) // URLクエリパラメータをクリア
+  if (!authorizationCode) {
+    throw new Error('認証コードが取得できませんでした')
   }
+  setCookie(CODE_KEY, authorizationCode, 1) // 認証コードをクッキーに保存 (1日有効)
+  window.history.replaceState(null, '', window.location.pathname) // URLクエリパラメータをクリア
+  return authorizationCode
 }
 
 /**
