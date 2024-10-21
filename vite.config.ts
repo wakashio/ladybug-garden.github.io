@@ -11,6 +11,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
+  base: '/ladybug-garden.github.io/', // リポジトリ名を設定 (例: '/my-vue-project/')
   server: {
     host: '0.0.0.0'
   }
