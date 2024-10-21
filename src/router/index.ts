@@ -13,24 +13,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Home',
-    component: Home,
-    beforeEnter: (to, from, next) => {
-      if (to.query.code) {
-        // 認証コードがある場合、処理を進める
-        saveAuthorizationCodeFromUrl().then(() => {
-          fetchAccessToken()
-            .then(() => {
-              location.reload() // トークン取得後にホームにリダイレクト
-            })
-            .catch(() => {
-              console.error('Failed to fetch access token')
-              next({ name: 'Home' }) // エラーハンドリング
-            })
-        })
-      } else {
-        next({ name: 'Home' }) // 認証コードがない場合はホームへ
-      }
-    }
+    component: Home
   },
   {
     path: '/callback',
