@@ -64,7 +64,7 @@ export const getAccessTokenFromCookie = async (): Promise<string | null> => {
   return new Promise((resolve) => {
     const accessToken = getCookie(TOKEN_KEY)
     if (!accessToken) {
-      const currentUrl = import.meta.env.VITE_REDIRECT_URI
+      const currentUrl = window.location.href
       if (!currentUrl.includes('code=')) {
         console.error('アクセストークンが見つかりません。Google認証ページにリダイレクトします。')
         redirectToGoogleAuth() // トークンがない場合はGoogleの認証ページにリダイレクト
