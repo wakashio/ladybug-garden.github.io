@@ -12,7 +12,7 @@ export default defineConfig({
     }
   },
 
-  base: '/ladybug-garden.github.io/',
+  base: process.env.VITE_BASE_DIR,
   build: {
     outDir: 'dist', // 出力ディレクトリを明示的に 'dist' に設定
   },

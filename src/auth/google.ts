@@ -1,5 +1,5 @@
-const CLIENT_ID = '1086072850778-8505lfc6t6plskccsursab4d7f0amgat.apps.googleusercontent.com'
-const CLIENT_SECRET = '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'
+const CLIENT_ID = import.meta.env.VITE_CLIENT_ID
+const CLIENT_SECRET = import.meta.env.VITE_CLIENT_SECRET
 const REDIRECT_URI = `${window.location.origin}/callback` // Google Cloud Consoleで設定したリダイレクトURI
 const SCOPE = 'https://www.googleapis.com/auth/calendar.readonly'
 const AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth'
@@ -49,7 +49,6 @@ export const redirectToGoogleAuth = () => {
  */
 export const saveAuthorizationCodeFromUrl = (): void => {
   const urlParams = new URLSearchParams(window.location.search) // URLのクエリパラメータを取得
-  console.log('saveAuthorizationCodeFromUrl', urlParams)
   const authorizationCode = urlParams.get('code')
   if (authorizationCode) {
     setCookie(CODE_KEY, authorizationCode, 1) // 認証コードをクッキーに保存 (1日有効)
@@ -64,7 +63,6 @@ export const saveAuthorizationCodeFromUrl = (): void => {
 export const getAccessTokenFromCookie = async (): Promise<string | null> => {
   return new Promise((resolve) => {
     const accessToken = getCookie(TOKEN_KEY)
-    console.log('accessToken', accessToken)
     if (!accessToken) {
       const currentUrl = window.location.href
       if (!currentUrl.includes('code=')) {
