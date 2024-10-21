@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import VisualCalendar from './components/VisualCalendar.vue'
 import html2canvas from 'html2canvas'
+import { saveAuthorizationCodeFromUrl, fetchAccessToken } from '@/auth/google'
 
 const calendarRef = ref<HTMLElement | null>(null)
 
@@ -17,6 +18,10 @@ const saveAsImage = () => {
     })
   }
 }
+onBeforeMount(() => {
+  saveAuthorizationCodeFromUrl()
+  fetchAccessToken()
+})
 </script>
 
 <template>
