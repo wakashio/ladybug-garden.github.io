@@ -1,12 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '@/views/Home.vue'
-import {
-  CODE_KEY,
-  fetchAccessToken,
-  getCookie,
-  redirectToGoogleAuth,
-  saveAuthorizationCodeFromUrl
-} from '@/auth/google'
+import { fetchAccessToken, saveAuthorizationCodeFromUrl } from '@/auth/google'
 
 // ルート定義
 const routes: Array<RouteRecordRaw> = [
@@ -25,11 +19,10 @@ const routes: Array<RouteRecordRaw> = [
         saveAuthorizationCodeFromUrl().then(() => {
           fetchAccessToken()
             .then(() => {
-              next({ name: 'Home' }) // トークン取得後にホームにリダイレクト
+              location.reload()
             })
             .catch(() => {
               console.error('Failed to fetch access token')
-              next({ name: 'Home' }) // エラーハンドリング
             })
         })
       } else {

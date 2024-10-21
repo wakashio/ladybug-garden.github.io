@@ -9,7 +9,7 @@ import {
   CalendarEvent,
   FormattedCalendarData
 } from '@/types/calendar'
-import { clearAccessToken, getAccessTokenFromCookie, getCookie, TOKEN_KEY } from '@/auth/google' // クッキーからトークン取得関数をインポート
+import { getCookie, TOKEN_KEY } from '@/auth/google' // クッキーからトークン取得関数をインポート
 
 // Google Calendar API の URL
 const GOOGLE_CALENDAR_API_URL = 'https://www.googleapis.com/calendar/v3/calendars'
@@ -65,7 +65,6 @@ export const fetchGoogleCalendarData = async (
         events
       }
     } catch (error) {
-      clearAccessToken()
       console.error(`Error fetching calendar data for calendarId: ${calendarId}`, error)
       throw new Error(`Failed to fetch data for calendarId: ${calendarId}`)
     }

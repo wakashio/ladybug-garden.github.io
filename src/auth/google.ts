@@ -111,7 +111,6 @@ export const fetchAccessToken = async (): Promise<void> => {
     if (data.access_token) {
       setCookie(TOKEN_KEY, data.access_token, 1) // アクセストークンをクッキーに保存 (1日有効)
       console.log('setCookie TOKEN_KEY')
-      location.reload()
     }
   } catch (error) {
     console.error('アクセストークンの取得エラー', error)
