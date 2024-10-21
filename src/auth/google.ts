@@ -1,6 +1,6 @@
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID
 const CLIENT_SECRET = import.meta.env.VITE_CLIENT_SECRET
-const REDIRECT_URI = import.meta.env.REDIRECT_URI // Google Cloud Consoleで設定したリダイレクトURI
+const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI // Google Cloud Consoleで設定したリダイレクトURI
 const SCOPE = 'https://www.googleapis.com/auth/calendar.readonly'
 const AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth'
 const TOKEN_KEY = 'google_access_token' // クッキーでトークンを保存するキー
