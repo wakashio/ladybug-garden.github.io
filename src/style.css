@@ -1,0 +1,29 @@
+@font-face {
+  font-display: swap;
+  font-family: 'Barlow Condensed';
+  src: url('/Barlow_Condensed/BarlowCondensed-Bold.ttf') format('truetype');
+}
+@font-face {
+  font-display: swap;
+  font-family: 'YakuHanJP';
+  src: url('/YakuHanJP/ttf/MergedYakuHanJP-ExtraBold.ttf') format('truetype');
+}
+:root {
+  color: #757575;
+  line-height: normal;
+  overflow: auto;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Barlow Condensed', 'YakuHanJP';
+
+  --yuuhi-color-primary: #fd9b72;
+  --yuuhi-color-secondary: #c59785;
+  --yuuhi-color-tertiary: #ffeac9;
+}
+
+div {
+  border-radius: 6px;
+}
