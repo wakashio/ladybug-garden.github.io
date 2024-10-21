@@ -28,25 +28,27 @@ const saveAsImage = () => {
   }
 }
 onBeforeMount(() => {
+  const currentUrl = window.location.href
+  if (currentUrl.includes('code=')) {
+    // 認証コードがある場合、処理を進める
+    saveAuthorizationCodeFromUrl().then(() => {
+      fetchAccessToken()
+        .then(() => {
+          console.log('reload')
+          window.history.replaceState(null, '', window.location.pathname)
+          location.reload() // トークン取得後にホームにリダイレクト
+        })
+        .catch(() => {
+          console.error('Failed to fetch access token')
+        })
+    })
+  }
   token.value = getCookie(TOKEN_KEY)
   if (!token.value) {
     fetchAccessToken().then(() => {
       token.value = getCookie(TOKEN_KEY)
     })
   } else {
-    const currentUrl = window.location.href
-    if (currentUrl.includes('code=')) {
-      // 認証コードがある場合、処理を進める
-      saveAuthorizationCodeFromUrl().then(() => {
-        fetchAccessToken()
-          .then(() => {
-            location.reload() // トークン取得後にホームにリダイレクト
-          })
-          .catch(() => {
-            console.error('Failed to fetch access token')
-          })
-      })
-    }
   }
 })
 </script>

@@ -19,6 +19,7 @@ const routes: Array<RouteRecordRaw> = [
         saveAuthorizationCodeFromUrl().then(() => {
           fetchAccessToken()
             .then(() => {
+              window.history.replaceState(null, '', window.location.pathname)
               location.reload()
             })
             .catch(() => {
