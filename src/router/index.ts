@@ -20,7 +20,7 @@ const routes: Array<RouteRecordRaw> = [
         saveAuthorizationCodeFromUrl().then(() => {
           fetchAccessToken()
             .then(() => {
-              next({ name: 'Home' }) // トークン取得後にホームにリダイレクト
+              location.reload() // トークン取得後にホームにリダイレクト
             })
             .catch(() => {
               console.error('Failed to fetch access token')
