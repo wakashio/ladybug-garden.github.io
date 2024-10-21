@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "deploy:gh-pages": "vite build --base=/ladybug-garden.github.io/",
     "preview": "vite preview"
   },
   "dependencies": {
