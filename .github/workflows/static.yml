@@ -33,12 +33,12 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - run: npm ci
-      - run: npm run build
+      - run: npm run deploy:gh-pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository
-          path: 'dist'
+          path: 'ladybug-garden.github.io/dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
