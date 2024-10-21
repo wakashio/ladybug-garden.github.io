@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onBeforeMount, ref } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
-import { fetchGoogleCalendarData } from '@/api/calendar.ts'
+import { getCalendar } from '@/api/calendar.ts'
 
 /**
  * ref
@@ -29,7 +29,7 @@ const weekDays: string[] = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 // 月の初日の曜日（カレンダーの開始位置を決める）
 const startDayOfWeek: number = firstDayOfMonth.day()
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
   const calendarIds = [
     '2f0f4675fcfb7472fdd2677a437fea09f08c69e1bdc02daecc8731b45f670709@group.calendar.google.com', // 配信（他の配信者枠）
     '529082a19355668b7b9fef09923eb4cc5f7ac8111b87f4260569d760f8e35f21@group.calendar.google.com', // 配信（メン限）
@@ -38,9 +38,9 @@ onBeforeMount(() => {
     '5ecb58a789b91ea7b4d82b0b3e2070bd9b9b5fd5868a8c5bff3331c34ebee94c@group.calendar.google.com', // グッズ
     'ea9c8449e4740ca765a18c3e9b677861f6a0eca0d95d5ddeb1c965ffc85a8fe7@group.calendar.google.com' // イベント
   ]
-  fetchGoogleCalendarData(calendarIds).then((res) => {
+
+  getCalendar(calendarIds).then((res) => {
     data.value = res
-    console.log(res)
   })
 })
 </script>

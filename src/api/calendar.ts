@@ -9,7 +9,7 @@ import {
   CalendarEvent,
   FormattedCalendarData
 } from '@/types/calendar'
-import { clearAccessToken, getAccessTokenFromCookie } from '@/auth/google' // クッキーからトークン取得関数をインポート
+import { clearAccessToken, getAccessTokenFromCookie, getCookie, TOKEN_KEY } from '@/auth/google' // クッキーからトークン取得関数をインポート
 
 // Google Calendar API の URL
 const GOOGLE_CALENDAR_API_URL = 'https://www.googleapis.com/calendar/v3/calendars'
@@ -39,12 +39,10 @@ const mockCalendarData: GetCalendarResponse = {
 }
 
 // Google Calendar API からデータを取得する関数
-export const fetchGoogleCalendarData = async (calendarIds: string[]): Promise<CalendarData[]> => {
-  const accessToken = await getAccessTokenFromCookie()
-  if (!accessToken) {
-    throw new Error('アクセストークンがありません。') // トークンがない場合はエラーをスロー
-  }
-
+export const fetchGoogleCalendarData = async (
+  accessToken: string,
+  calendarIds: string[]
+): Promise<CalendarData[]> => {
   const calendarDataPromises = calendarIds.map(async (calendarId) => {
     try {
       const response = await axios.get(`${GOOGLE_CALENDAR_API_URL}/${calendarId}/events`, {
@@ -86,7 +84,11 @@ export const getCalendar = async (calendarIds: string[]): Promise<GetCalendarRes
   } else {
     // 本番環境ではGoogle Calendar APIからデータを取得
     try {
-      const calendars = await fetchGoogleCalendarData(calendarIds)
+      const accessToken = getCookie(TOKEN_KEY)
+      if (!accessToken) {
+        throw new Error('アクセストークンがありません。') // トークンがない場合はエラーをスロー
+      }
+      const calendars = await fetchGoogleCalendarData(accessToken, calendarIds)
       return { calendars }
     } catch (error) {
       console.error('Error fetching Google Calendar data', error)

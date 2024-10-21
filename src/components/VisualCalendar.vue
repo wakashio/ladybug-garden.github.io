@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onBeforeMount } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
-import { fetchGoogleCalendarData, transformCalendarData } from '@/api/calendar.ts'
+import { getCalendar, transformCalendarData } from '@/api/calendar.ts'
 import { FormattedCalendarData } from '@/types/calendar'
 import ImageUpload from '@/components/ImageUpload.vue'
 
@@ -30,7 +30,7 @@ const startDayOfWeek: number = firstDayOfMonth.day()
 const events = ref<FormattedCalendarData[]>([])
 
 // カレンダーイベントを取得して保存
-onBeforeMount(() => {
+onBeforeMount(async () => {
   const calendarIds = [
     '2f0f4675fcfb7472fdd2677a437fea09f08c69e1bdc02daecc8731b45f670709@group.calendar.google.com', // 配信（他の配信者枠）
     '529082a19355668b7b9fef09923eb4cc5f7ac8111b87f4260569d760f8e35f21@group.calendar.google.com', // 配信（メン限）
@@ -40,8 +40,8 @@ onBeforeMount(() => {
     'ea9c8449e4740ca765a18c3e9b677861f6a0eca0d95d5ddeb1c965ffc85a8fe7@group.calendar.google.com' // イベント
   ]
 
-  fetchGoogleCalendarData(calendarIds).then((res) => {
-    events.value = transformCalendarData(res) // イベントデータを変換して保存
+  getCalendar(calendarIds).then((res) => {
+    events.value = transformCalendarData(res.calendars) // イベントデータを変換して保存
   })
 })
 

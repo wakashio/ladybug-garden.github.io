@@ -2,9 +2,18 @@
 import { onBeforeMount, ref } from 'vue'
 import VisualCalendar from './components/VisualCalendar.vue'
 import html2canvas from 'html2canvas'
-import { saveAuthorizationCodeFromUrl, fetchAccessToken } from '@/auth/google'
+import {
+  saveAuthorizationCodeFromUrl,
+  fetchAccessToken,
+  getCookie,
+  CODE_KEY,
+  TOKEN_KEY,
+  redirectToGoogleAuth
+} from '@/auth/google'
 
 const calendarRef = ref<HTMLElement | null>(null)
+const code = ref<string | null>(getCookie(CODE_KEY))
+const token = ref<string | null>(getCookie(TOKEN_KEY))
 
 // 画像として保存する関数
 const saveAsImage = () => {
@@ -19,13 +28,16 @@ const saveAsImage = () => {
   }
 }
 onBeforeMount(() => {
-  saveAuthorizationCodeFromUrl()
-  fetchAccessToken()
+  token.value = getCookie(TOKEN_KEY)
+  if (!token.value) {
+    fetchAccessToken()
+    token.value = getCookie(TOKEN_KEY)
+  }
 })
 </script>
 
 <template>
-  <div class="flex gap">
+  <div v-if="token" class="flex gap">
     <!-- VisualCalendarコンポーネントをキャプチャするための参照 -->
     <div ref="calendarRef">
       <VisualCalendar />
