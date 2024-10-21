@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
+    "deploy:gh-pages": "vue-cli-service build --dest dist",
     "preview": "vite preview"
   },
   "dependencies": {
