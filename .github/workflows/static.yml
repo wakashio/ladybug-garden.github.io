@@ -44,7 +44,7 @@ jobs:
           VITE_BASE_DIR: /ladybug-garden.github.io/
           VITE_CLIENT_ID: 1086072850778-frpfuhg1lj1g7gteccoj8cn3ajsbbha2.apps.googleusercontent.com
           VITE_CLIENT_SECRET: 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
-          VITE_REDIRECT_URI: https://wakashio.github.io/ladybug-garden.github.io/callback
+          VITE_REDIRECT_URI: https://wakashio.github.io/ladybug-garden.github.io
         run: npm run build  # dist フォルダにビルド
 
       - name: Upload artifact
