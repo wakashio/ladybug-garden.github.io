@@ -42,8 +42,8 @@ jobs:
       - name: Build project
         env:
           VITE_BASE_DIR: /ladybug-garden.github.io/
-          VITE_CLIENT_ID: 1086072850778-8505lfc6t6plskccsursab4d7f0amgat.apps.googleusercontent.com
-          VITE_CLIENT_SECRET: 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
+          VITE_CLIENT_ID: 1086072850778-frpfuhg1lj1g7gteccoj8cn3ajsbbha2.apps.googleusercontent.com
+          VITE_CLIENT_SECRET: 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
         run: npm run build  # dist フォルダにビルド
 
       - name: Upload artifact
