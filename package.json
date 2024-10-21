@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build --base=/ladybug-garden.github.io/",
+    "build": "vue-tsc -b && vite build",
+    "build:gh": "vue-tsc -b && vite build --base=/ladybug-garden.github.io/",
     "preview": "vite preview"
   },
   "dependencies": {

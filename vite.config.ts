@@ -10,9 +10,5 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  },
-  base: '/ladybug-garden.github.io/',
-  server: {
-    host: '0.0.0.0'
   }
 })
