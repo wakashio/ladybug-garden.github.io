@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import Home from '@/views/Home.vue'
 import { fetchAccessToken, saveAuthorizationCodeFromUrl } from '@/auth/google'
 
@@ -35,7 +35,7 @@ const routes: Array<RouteRecordRaw> = [
 
 // Vue Router のインスタンスを作成
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes
 })
 
