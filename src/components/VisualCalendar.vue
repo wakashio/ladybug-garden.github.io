@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import dayjs, { Dayjs } from 'dayjs'
-import { getCalendar } from '@/api/calendar.ts'
-
-/**
- * ref
- */
-const data = ref()
+import { getCalendar, transformCalendarData } from '@/api/calendar.ts'
+import { FormattedCalendarData } from '@/types/calendar'
+import ImageUpload from '@/components/ImageUpload.vue'
 
 // 今日の日付を取得
 const today: Dayjs = dayjs()
@@ -29,6 +26,10 @@ const weekDays: string[] = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 // 月の初日の曜日（カレンダーの開始位置を決める）
 const startDayOfWeek: number = firstDayOfMonth.day()
 
+// イベントデータを保存するリアクティブ変数
+const events = ref<FormattedCalendarData[]>([])
+
+// カレンダーイベントを取得して保存
 onBeforeMount(async () => {
   const calendarIds = [
     '2f0f4675fcfb7472fdd2677a437fea09f08c69e1bdc02daecc8731b45f670709@group.calendar.google.com', // 配信（他の配信者枠）
@@ -40,14 +41,21 @@ onBeforeMount(async () => {
   ]
 
   getCalendar(calendarIds).then((res) => {
-    data.value = res
+    events.value = transformCalendarData(res.calendars) // イベントデータを変換して保存
   })
 })
-</script>
 
+// 特定の日にイベントがあるかを確認する関数
+const getEventsForDay = (day: Dayjs) => {
+  return events.value.filter((event) => {
+    const eventDate = dayjs(event.start)
+    return eventDate.isSame(day, 'day')
+  })
+}
+</script>
 <template>
   <div class="background">
-    <div class="header">
+    <ImageUpload>
       <div class="month-year-area">
         <div class="month-year">
           <div class="month">{{ currentMonth + 1 }}</div>
@@ -60,7 +68,7 @@ onBeforeMount(async () => {
           </div>
         </div>
       </div>
-    </div>
+    </ImageUpload>
 
     <div class="weekdays">
       <div
@@ -80,7 +88,14 @@ onBeforeMount(async () => {
         :key="index"
         :class="['day', day.day() === 0 ? 'sunday' : '', day.day() === 6 ? 'saturday' : '']"
       >
-        <span class="date">{{ day.date() }}</span>
+        <span
+          :class="['date', day.day() === 0 ? 'sunday' : '', day.day() === 6 ? 'saturday' : '']"
+          >{{ day.date() }}</span
+        >
+        <!-- 各日のイベントを表示 -->
+        <div v-for="event in getEventsForDay(day)" :key="event.id" class="event">
+          <span class="event-title">{{ event.summary }}</span>
+        </div>
       </div>
     </div>
 
@@ -194,10 +209,41 @@ onBeforeMount(async () => {
     margin-top: 4px;
 
     .day {
+      box-sizing: border-box;
       position: relative; /* 親要素を相対配置 */
       height: 56px;
       text-align: center;
       background-color: #ffeac9;
+      display: flex;
+      flex-direction: column; /* イベントを縦に並べる */
+      justify-content: flex-start;
+      overflow: hidden; /* 子要素が親の幅を超えたら隠す */
+      padding: 8px 4px 2px;
+
+      .event {
+        font-size: 6px;
+        display: flex;
+        align-items: flex-start; /* 子要素を左寄せ */
+
+        .event-title {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: inline-block;
+          max-width: 100%;
+          text-align: left; /* テキストを左寄せ */
+        }
+      }
+    }
+
+    .date {
+      position: absolute; /* 子要素を絶対配置 */
+      background-color: #ffeac9;
+      top: 2px;
+      right: 4px;
+      text-align: right;
+      padding: 1px;
+      line-height: 1;
     }
 
     .saturday {
@@ -212,12 +258,6 @@ onBeforeMount(async () => {
 
     .empty {
       background-color: transparent;
-    }
-
-    .date {
-      position: absolute; /* 子要素を絶対配置 */
-      top: 4px;
-      right: 6px;
     }
   }
 
